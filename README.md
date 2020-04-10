@@ -16,34 +16,28 @@ In its first pass, the algorithm calculates a *disparity* for each pixel. That i
 
 Here, we used an approach called stereo region matching, where we compare left and right pixels using a small window around them. By evaluating the similarity of the entire window, we get the similair of the pixels. This is a high level explanation--the actual algorithm used implements many more optimizations; please refer to the full report for full details. Below are the results of disparity estimation: brighter areas correspond to surfaces closer to the camera.
 
-<p float="left">
-<div style="display: inline-block; width: 56%">
-    <h4>Disparity Map</h4>
-    <img src="./static/disparity.png" width="100%" />
-  </div>  
-<div style="display: inline-block; width: 40%">
-    <h4>Disparity Map (angled)</h4>
-    <img src="./static/disparities-3d.png" width="100%" />
-  </div>  
-</p>
+Disparity Map | Angled Disparity Map
+:------------:|:--------------------:
+![](./static/disparity.png)|![](./static/disparities-3d.png)
 
 These disparities are then triangulated to generate a 3D point cloud. Again, full details are provided in the report linked above. Visible below-left, this point cloud is fairly accurate, but suffers from some imperfections. The most significant limitation is that disparity-based depth estimation is **quantized.** That is, depth is only calculated in discrete slices. As such, the cloud looks sparse and choppy.
 
-This is addressed by post-processing the cloud. By recursively comparing nearby points with eachother, as well as the original image, the algorithm is able to modify the cloud until it appears smoother, cleaner, and more solid. Both stages are shown below.
+This is addressed by post-processing the cloud with the following goals.
+
+- Accurately represent smooth changes in depth for smooth surfaces.
+- Prevent noise around occluding surfaces.
+- Make contiguous regions appear solid.
+- Be image agnostic.
+
+ By recursively comparing nearby points with eachother, as well as the original image, the algorithm is able to modify the cloud until it appears smoother, cleaner, and more solid. Both stages are shown below. 
 
 
 
+#### Point Clouds
+Raw  | Post Processed
+:------------:|:--------------------:
+![](./static/cloud-raw.png)|![](./static/cloud-processed.png)
 
-<p float="left">
-  <div style="display: inline-block; width: 49%">
-    <h4>Raw Point Cloud</h4>
-    <img src="./static/cloud-raw.png" width="100%" />
-    </div>
-<div style="display: inline-block; width: 49%">
-    <h4>Processed Point Cloud</h4>
-    <img src="./static/cloud-processed.png" width="100%" />
-  </div>  
-</p>
 
 #### Final Result
 ![](./static/final.gif)
