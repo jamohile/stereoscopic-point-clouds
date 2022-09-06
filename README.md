@@ -14,7 +14,7 @@ This is an input image, as it would appear from the left hand camera. This, comb
 
 In its first pass, the algorithm calculates a *disparity* for each pixel. That is, how far it has shifted between the left and right image. The hardest part here is identifying corresponding pixels between the two images...this sounds simple at first, but it is actually the hardest part! 
 
-Here, we used an approach called stereo region matching, where we compare left and right pixels using a small window around them. By evaluating the similarity of the entire window, we get the similair of the pixels. This is a high level explanation--the actual algorithm used implements many more optimizations; please refer to the full report for full details. Below are the results of disparity estimation: brighter areas correspond to surfaces closer to the camera.
+Here, we used an approach called stereo region matching, where we compare left and right pixels using a small window around them. By evaluating the similarity of the entire window, we get the similarity of the pixels. This is a high level explanation--the actual algorithm used implements many more optimizations; please refer to the full report for full details. Below are the results of disparity estimation: brighter areas correspond to surfaces closer to the camera.
 
 Disparity Map | Angled Disparity Map
 :------------:|:--------------------:
